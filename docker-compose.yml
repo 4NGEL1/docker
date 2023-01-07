@@ -2,7 +2,7 @@ version: '3.9'
 services:
   outsider:
     container_name: outsider-service
-    image: 4n6e1/outsider-service:v1.0.3
+    image: 4n6e1/outsider-service:v1.0.4
     ports:
       - "60000:5126"
     environment:
@@ -23,7 +23,7 @@ services:
       - "60003:8761"
   olc:
     container_name: olc-service
-    image: 4n6e1/olcadapater-service:v1.0.3
+    image: 4n6e1/olcadapater-service:v1.0.4
     ports:
       - "60002:5103"
     environment:

@@ -15,12 +15,12 @@ services:
     container_name: redis-svc
     image: redis:alpine
     ports:
-      - "60001:6379"
+      - "60001:60001"
   eurekaserver:
     container_name: eureka-svc
     image: steeltoeoss/eureka-server
     ports:
-      - "60003:8761"
+      - "60003:60003"
   olc:
     container_name: olc-service
     image: 4n6e1/olcadapater-service:latest

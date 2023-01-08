@@ -2,7 +2,7 @@ version: '3.9'
 services:
   outsider:
     container_name: outsider-service
-    image: 4n6e1/outsider-service:v1.0.9
+    image: 4n6e1/outsider-service:v1.0.10
     ports:
       - "60000:5126"
     environment:

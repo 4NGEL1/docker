@@ -2,13 +2,13 @@ version: '3.9'
 services:
   outsider:
     container_name: outsider-service
-    image: 4n6e1/outsider-service:v1.0.11
+    image: 4n6e1/outsider-service:v1.0.12
     ports:
       - "60000:5126"
     environment:
       - ASPNETCORE_ENVIRONMENT=Local
-      - EUREKASERVER_SVC_SERVICE_HOST="18.206.229.175"
-      - EUREKASERVER_SVC_SERVICE_PORT="60003"
+      - EUREKASERVER_SVC_SERVICE_HOST=18.206.229.175
+      - EUREKASERVER_SVC_SERVICE_PORT=60003
     depends_on:
       - eurekaserver
     links:
@@ -25,15 +25,15 @@ services:
       - "60003:8761"
   olc:
     container_name: olc-service
-    image: 4n6e1/olcadapater-service:v1.0.5
+    image: 4n6e1/olcadapater-service:v1.0.12
     ports:
       - "60002:5103"
     environment:
       - ASPNETCORE_ENVIRONMENT=Local
-      - REDISDATA_SVC_SERVICE_HOST="18.206.229.175"
-      - REDISDATA_SVC_SERVICE_PORT="60001"
-      - EUREKASERVER_SVC_SERVICE_HOST="18.206.229.175"
-      - EUREKASERVER_SVC_SERVICE_PORT="60003"
+      - REDISDATA_SVC_SERVICE_HOST=18.206.229.175
+      - REDISDATA_SVC_SERVICE_PORT=60001
+      - EUREKASERVER_SVC_SERVICE_HOST=18.206.229.175
+      - EUREKASERVER_SVC_SERVICE_PORT=60003
     depends_on:
       - outsider
       - redis

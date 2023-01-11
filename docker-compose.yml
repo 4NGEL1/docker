@@ -25,7 +25,7 @@ services:
       - "60003:8761"
   olc:
     container_name: olc-service
-    image: 4n6e1/olcadapater-service:v1.0.22
+    image: 4n6e1/olcadapater-service:v1.0.23
     ports:
       - "60002:5103"
     environment:

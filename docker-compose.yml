@@ -18,21 +18,22 @@ services:
     ports:
       - "60003:8761"
       
-  storage:
-    image: openzipkin/zipkin-elasticsearch7
-    container_name: elasticsearch
-    environment:
-      - action.auto_create_index=.monitoring*,.watches,.triggered_watches,.watcher-history*,.ml*
-      #- discovery.type=single-node 
-    ports:
-      - "60004:9200"
+  # storage:
+    # image: openzipkin/zipkin-elasticsearch7
+    # container_name: elasticsearch
+    # environment:
+      # - action.auto_create_index=.monitoring*,.watches,.triggered_watches,.watcher-history*,.ml*
+      # #- discovery.type=single-node 
+    # ports:
+      # - "60004:9200"
   
   zipkin:
     container_name: Zipkin
     image: openzipkin/zipkin
     environment:
-      - STORAGE_TYPE=elasticsearch
-      - ES_HOSTS=http://107.22.91.215:60004
+      # - STORAGE_TYPE=elasticsearch
+      # - ES_HOSTS=http://107.22.91.215:60004
+      - JAVA_OPTS="-Xms2g -Xmx2g -XX:+ExitOnOutOfMemoryError"
     ports:
       - "60005:9411"
     restart: "always"

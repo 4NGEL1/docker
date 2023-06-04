@@ -5,22 +5,63 @@ services:
     image: redis:alpine
     ports:
       - "60001:6379"
+      
+  seqlog:
+    image: datalust/seq:latest
+    restart: "always"
+    ports:
+      - "60002:30005"
+
   eurekaserver:
     container_name: eureka-svc
     image: steeltoeoss/eureka-server
     ports:
       - "60003:8761"
+      
+  storage:
+    image: openzipkin/zipkin-elasticsearch7
+    container_name: elasticsearch
+    environment:
+      - action.auto_create_index=.monitoring*,.watches,.triggered_watches,.watcher-history*,.ml*
+      #- discovery.type=single-node 
+    ports:
+      - "60004:9200"
+  
+  zipkin:
+    container_name: Zipkin
+    image: openzipkin/zipkin
+    environment:
+      - STORAGE_TYPE=elasticsearch
+      - ES_HOSTS=http://107.22.91.215:60004
+    ports:
+      - "60005:9411"
+    restart: "always"
+    
+  grafana:
+    image: grafana/grafana
+    container_name: grafana
+    depends_on:
+      - prometheus
+    environment:
+      - GF_AUTH_ANONYMOUS_ENABLED=true
+      - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
+    ports:
+      - "60006:3000"
+    
   nip:
     container_name: nip-service
     image: 4n6e1/nip-service:v1
     ports:
-      - "60004:5123"
+      - "60007:5123"
     environment:
       - ASPNETCORE_ENVIRONMENT=Staging
       - REDISDATA_SVC_SERVICE_HOST=107.22.91.215
       - REDISDATA_SVC_SERVICE_PORT=60001
       - EUREKASERVER_SVC_SERVICE_HOST=107.22.91.215
       - EUREKASERVER_SVC_SERVICE_PORT=60003
+      - SEQLOG_SVC_SERVICE_HOST=107.22.91.215
+      - SEQLOG_SVC_SERVICE_PORT_ALT=60002
+      - ZIPKIN_URL=http://107.22.91.215:9411/api/v2/spans
     depends_on:
       - redis
       - eurekaserver

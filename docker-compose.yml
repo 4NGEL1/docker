@@ -61,6 +61,29 @@ services:
       - SEQLOG_SVC_SERVICE_HOST=107.22.91.215
       - SEQLOG_SVC_SERVICE_PORT_ALT=60002
       - ZIPKIN_URL=http://107.22.91.215:9411/api/v2/spans
+      - OLC_SERVICE=http://107.22.91.215:60008
+    depends_on:
+      - redis
+      - eurekaserver
+      - olc
+    links:
+      - redis
+      - eurekaserver
+
+  olc:
+    container_name: olc-service
+    image: 4n6e1/olc-service:v1
+    ports:
+      - "60008:5103"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Staging
+      - REDISDATA_SVC_SERVICE_HOST=107.22.91.215
+      - REDISDATA_SVC_SERVICE_PORT=60001
+      - EUREKASERVER_SVC_SERVICE_HOST=107.22.91.215
+      - EUREKASERVER_SVC_SERVICE_PORT=60003
+      - SEQLOG_SVC_SERVICE_HOST=107.22.91.215
+      - SEQLOG_SVC_SERVICE_PORT_ALT=60002
+      - ZIPKIN_URL=http://107.22.91.215:9411/api/v2/spans
     depends_on:
       - redis
       - eurekaserver

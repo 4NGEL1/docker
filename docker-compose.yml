@@ -22,10 +22,8 @@ services:
       - EUREKASERVER_SVC_SERVICE_HOST=107.22.91.215
       - EUREKASERVER_SVC_SERVICE_PORT=60003
     depends_on:
-      - outsider
       - redis
       - eurekaserver
     links:
-      - outsider
       - redis
       - eurekaserver

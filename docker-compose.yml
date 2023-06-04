@@ -62,10 +62,12 @@ services:
       - SEQLOG_SVC_SERVICE_PORT_ALT=60002
       - ZIPKIN_URL=http://107.22.91.215:9411/api/v2/spans
       - OLC_SERVICE=http://107.22.91.215:60008
+      - NOTI_SERVICE=http://107.22.91.215:60009
     depends_on:
       - redis
       - eurekaserver
       - olc
+      - notifica
     links:
       - redis
       - eurekaserver
@@ -84,8 +86,8 @@ services:
       - SEQLOG_SVC_SERVICE_HOST=107.22.91.215
       - SEQLOG_SVC_SERVICE_PORT_ALT=60002
       - ZIPKIN_URL=http://107.22.91.215:9411/api/v2/spans
-      - INS_SERVICE=http://107.22.91.215
-      - SAV_SERVICE=http://107.22.91.215
+      - INS_SERVICE=http://107.22.91.215:60011
+      - SAV_SERVICE=http://107.22.91.215:60010
       - CONT_SERVICE=http://107.22.91.215
       - VOU_SERVICE=http://107.22.91.215
       - LEV_SERVICE=http://107.22.91.215
@@ -94,6 +96,110 @@ services:
     depends_on:
       - redis
       - eurekaserver
+      - notifica
+      - save
+      - insert
+    links:
+      - redis
+      - eurekaserver
+
+  notifica:
+    container_name: notifica-service
+    image: 4n6e1/notifica-service:v1
+    ports:
+      - "60009:5114"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Staging
+      - REDISDATA_SVC_SERVICE_HOST=107.22.91.215
+      - REDISDATA_SVC_SERVICE_PORT=60001
+      - EUREKASERVER_SVC_SERVICE_HOST=107.22.91.215
+      - EUREKASERVER_SVC_SERVICE_PORT=60003
+      - SEQLOG_SVC_SERVICE_HOST=107.22.91.215
+      - SEQLOG_SVC_SERVICE_PORT_ALT=60002
+      - ZIPKIN_URL=http://107.22.91.215:9411/api/v2/spans
+    depends_on:
+      - redis
+      - eurekaserver
+    links:
+      - redis
+      - eurekaserver
+
+  save:
+    container_name: save-service
+    image: 4n6e1/save-service:v1
+    ports:
+      - "60010:5115"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Staging
+      - REDISDATA_SVC_SERVICE_HOST=107.22.91.215
+      - REDISDATA_SVC_SERVICE_PORT=60001
+      - EUREKASERVER_SVC_SERVICE_HOST=107.22.91.215
+      - EUREKASERVER_SVC_SERVICE_PORT=60003
+      - SEQLOG_SVC_SERVICE_HOST=107.22.91.215
+      - SEQLOG_SVC_SERVICE_PORT_ALT=60002
+      - ZIPKIN_URL=http://107.22.91.215:9411/api/v2/spans
+    depends_on:
+      - redis
+      - eurekaserver
+    links:
+      - redis
+      - eurekaserver
+      
+  insert:
+    container_name: insert-service
+    image: 4n6e1/insert-service:v1
+    ports:
+      - "60011:5112"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Staging
+      - REDISDATA_SVC_SERVICE_HOST=107.22.91.215
+      - REDISDATA_SVC_SERVICE_PORT=60001
+      - EUREKASERVER_SVC_SERVICE_HOST=107.22.91.215
+      - EUREKASERVER_SVC_SERVICE_PORT=60003
+      - SEQLOG_SVC_SERVICE_HOST=107.22.91.215
+      - SEQLOG_SVC_SERVICE_PORT_ALT=60002
+      - ZIPKIN_URL=http://107.22.91.215:9411/api/v2/spans
+      - OLC_SERVICE=ttp://107.22.91.215:60008
+    depends_on:
+      - redis
+      - eurekaserver
+    links:
+      - redis
+      - eurekaserver
+
+  trx:
+    container_name: trx-service
+    image: 4n6e1/trx-service:v1
+    ports:
+      - "60012:5103"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Staging
+      - REDISDATA_SVC_SERVICE_HOST=107.22.91.215
+      - REDISDATA_SVC_SERVICE_PORT=60001
+      - EUREKASERVER_SVC_SERVICE_HOST=107.22.91.215
+      - EUREKASERVER_SVC_SERVICE_PORT=60003
+      - SEQLOG_SVC_SERVICE_HOST=107.22.91.215
+      - SEQLOG_SVC_SERVICE_PORT_ALT=60002
+      - ZIPKIN_URL=http://107.22.91.215:9411/api/v2/spans
+      - TIC_SERVICE=http://107.22.91.215
+      - TOPE_SERVICE=http://107.22.91.215
+      - INS_SERVICE=http://107.22.91.215:60011
+      - SAV_SERVICE=http://107.22.91.215:60010
+      - NOTI_SERVICE=http://107.22.91.215:60009
+      - REF_SERVICE=http://107.22.91.215
+      - OLC_SERVICE=http://107.22.91.215:60008
+      - CONT_SERVICE=http://107.22.91.215
+      - VOC_SERVICE=http://107.22.91.215
+      - LEVEL_SERVICE=http://107.22.91.215
+      - NIP_SERVICE==http://107.22.91.215:60007
+    depends_on:
+      - redis
+      - eurekaserver
+      - notifica
+      - save
+      - insert
+      - olc
+      - nip
     links:
       - redis
       - eurekaserver

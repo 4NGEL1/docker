@@ -14,7 +14,7 @@ services:
     container_name: nip-service
     image: 4n6e1/nip-service:v1
     ports:
-      - "60001:5123"
+      - "60004:5123"
     environment:
       - ASPNETCORE_ENVIRONMENT=Staging
       - REDISDATA_SVC_SERVICE_HOST=107.22.91.215

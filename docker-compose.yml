@@ -84,6 +84,13 @@ services:
       - SEQLOG_SVC_SERVICE_HOST=107.22.91.215
       - SEQLOG_SVC_SERVICE_PORT_ALT=60002
       - ZIPKIN_URL=http://107.22.91.215:9411/api/v2/spans
+      - INS_SERVICE=http://107.22.91.215
+      - SAV_SERVICE=http://107.22.91.215
+      - CONT_SERVICE=http://107.22.91.215
+      - VOU_SERVICE=http://107.22.91.215
+      - LEV_SERVICE=http://107.22.91.215
+      - TRX_SERVICE=http://107.22.91.215
+      - ACUM_SERVICE=http://107.22.91.215
     depends_on:
       - redis
       - eurekaserver
